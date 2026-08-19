@@ -1,6 +1,6 @@
 package dao;
 import controller.ConnectionMySQL;
-import model.UsuarioModel;
+import model.LojaModel;
 import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class UsuarioDao {
+public class UsuarioLoja {
     private Connection connection;
 
-    public UsuarioDao(Connection connection) {
+    public UsuarioLoja(Connection connection) {
         this.connection = new ConnectionMySQL().getConnection();
     }
     
-    public void adicionar(UsuarioModel usuario){
+    public void adicionar(LojaModel usuario){
         String sql = "INSERT INTO jogo(nome,plataforma,preco)VALUES(?,?,?)";
         
         try {
@@ -37,13 +37,13 @@ public class UsuarioDao {
         }
     }
     
-    public List<UsuarioModel> leitura(){
+    public List<LojaModel> leitura(){
         
         connection = new ConnectionMySQL().getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        List<UsuarioModel> usuarioArray = new ArrayList<>();
+        List<LojaModel> usuarioArray = new ArrayList<>();
         
         try {
             ps = connection.prepareStatement("SELECT * FROM jogo");
@@ -51,7 +51,7 @@ public class UsuarioDao {
             rs = ps.executeQuery();
             
             while (rs.next()) {
-               UsuarioModel u = new UsuarioModel();
+               LojaModel u = new LojaModel();
                
                u.setIdJogo(rs.getInt          ("idJogo"));
                u.setNome(rs.getString         ("nome"));
@@ -62,7 +62,7 @@ public class UsuarioDao {
                usuarioArray.add(u);
                
             }
-            JOptionPane.showMessageDialog(null,"Lista DAO funcionou");
+            //JOptionPane.showMessageDialog(null,"Lista DAO funcionou");
             
         } catch (Exception e) {
             
@@ -73,7 +73,7 @@ public class UsuarioDao {
         return usuarioArray;
     } 
     
-     public void atualizar(UsuarioModel usuario) {
+     public void atualizar(LojaModel usuario) {
         String sql = "UPDATE jogo SET nome = ?, plataforma = ?, preco = ?, WHERE idJogo = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -92,7 +92,7 @@ public class UsuarioDao {
         }
      }
       
-     public void deletar(UsuarioModel usuario){
+     public void deletar(LojaModel usuario){
                 String sql = "DELETE FROM jogo WHERE idJogo = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
